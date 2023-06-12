@@ -45,13 +45,18 @@ def get_video_details(video_id):
                 id=request["items"][0]["snippet"]["categoryId"]
             ).execute()
             category = category["items"][0]["snippet"]["title"]
+        
+        tags = request["items"][0]["snippet"].get("tags", [])
+        if not tags:  # Check if tags list is empty
+            tags = ["No tags available"] 
+
         response = {
             "title": request["items"][0]["snippet"]["title"],
             "channel": request["items"][0]["snippet"]["channelTitle"],
             "cover": request["items"][0]["snippet"]["thumbnails"]["high"]["url"],
-            "tags": request["items"][0]["snippet"]["tags"][:5],
+            "tags": tags[:5],
             "category": category,
-            "defaultLanguage": request["items"][0]["snippet"]["defaultAudioLanguage"],
+            "defaultLanguage": request["items"][0]["snippet"].get("defaultAudioLanguage", "en"),
         }
         return response
     except HttpError as e:
@@ -60,8 +65,9 @@ def get_video_details(video_id):
 
 def get_captions(video_id,language):
     try:
-        captions = YouTubeTranscriptApi.get_transcript("ObQ05-5vFCQ",preserve_formatting=True,languages = [language,"en"])
+        captions = YouTubeTranscriptApi.get_transcript(video_id,preserve_formatting=True,languages = [language,"en","es","pt"])
     except:
         captions = "error"
+        print("ERROR")
     return captions
     

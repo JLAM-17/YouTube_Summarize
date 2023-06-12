@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './VideoInput.css';
 
 
 const VideoInput = () => {
@@ -36,12 +37,13 @@ const VideoInput = () => {
   };
 
   return (
-    <div>
+    <div className="video-input-container">
       <input
         type="text"
         value={videoLink}
         onChange={handleInputChange}
         placeholder="Enter YouTube video link"
+        className="video-input"
       />
       <button onClick={handleSubmit}>Submit</button>
 

@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
-from youtube_api import extract_video_id,get_captions, get_video_details
 from flask_cors import CORS
+from youtube_api import extract_video_id,get_captions, get_video_details
+from openai_api import video_summarize
 
 
 
@@ -20,8 +21,13 @@ def summarize():
     # Get the video captions
     print(video_details)
     captions = get_captions(video_id,video_details["defaultLanguage"][:2])
-    print(captions)
-    return jsonify({'captions': captions})
+    # print(captions)
+    transcript = ' '.join([caption['text'] for caption in captions])
+    print(transcript)
+    # Summarize the captions
+    summary = video_summarize(captions, video_details)
+    print(summary)
+    return jsonify({'summary': summary,'video_details': video_details})
 
 
 @app.route('/api')
