@@ -1,7 +1,8 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from db import conn
-
+from flask import Flask, request, jsonify
+from youtube_transcript_api import YouTubeTranscriptApi
 
 def get_api_key():
     cursor = conn.cursor()
@@ -18,12 +19,49 @@ def get_api_key():
     return api_key
 
 
+# Extract the video ID from the YouTube video link
+def extract_video_id(video_link):
+    # You can use a regular expression or string manipulation techniques
+    # Here's an example using string manipulation assuming the video link is in the format: https://www.youtube.com/watch?v=VIDEO_ID
+    video_id = video_link.split('v=')[1]
+    if '&' in video_id:
+        video_id = video_id.split('&')[0]
 
+    return video_id
 
-# Set up YouTube API
-api_service_name = "youtube"
-api_version = "v3"
-api_key = get_api_key()
+def get_video_details(video_id):
+    # Create a service object for interacting with the YouTube Data API
+    api_key = get_api_key()
+    youtube = build('youtube', 'v3', developerKey=api_key)
 
-youtube = build(api_service_name, api_version, developerKey=api_key)
+    try:
+        request = youtube.videos().list(
+            part="snippet",
+            id=video_id
+        ).execute()
+        if (request["items"][0]["snippet"]["categoryId"] != ""):
+            category = youtube.videoCategories().list(
+                part="snippet",
+                id=request["items"][0]["snippet"]["categoryId"]
+            ).execute()
+            category = category["items"][0]["snippet"]["title"]
+        response = {
+            "title": request["items"][0]["snippet"]["title"],
+            "channel": request["items"][0]["snippet"]["channelTitle"],
+            "cover": request["items"][0]["snippet"]["thumbnails"]["high"]["url"],
+            "tags": request["items"][0]["snippet"]["tags"][:5],
+            "category": category,
+            "defaultLanguage": request["items"][0]["snippet"]["defaultAudioLanguage"],
+        }
+        return response
+    except HttpError as e:
+        return jsonify({'error': str(e)}), 500
+    
 
+def get_captions(video_id,language):
+    try:
+        captions = YouTubeTranscriptApi.get_transcript("ObQ05-5vFCQ",preserve_formatting=True,languages = [language,"en"])
+    except:
+        captions = "error"
+    return captions
+    
