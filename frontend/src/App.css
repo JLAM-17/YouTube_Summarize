@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;500&display=swap');
+
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -36,3 +42,20 @@
     transform: rotate(360deg);
   }
 }
+
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 3rem;
+  color: white;
+  margin-top: 25vh;
+  /* color: aqua; */
+  text-align: center;
+}
+
+.gradient-text {
+  background: linear-gradient(220.55deg, #FF3F3F 0%, #063CFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

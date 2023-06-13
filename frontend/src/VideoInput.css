@@ -1,16 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&display=swap');
 .video-input-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    /* height: 100vh; */
+    margin-bottom: 35vh;
   }
-  
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    padding-bottom: 5vh;
+}
 .video-input {
     padding: 10px;
     font-size: 18px;
     border: none;
     border-radius: 5px;
-    margin-bottom: 10px;
+    width: 50vw;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
 }
+
+.submit-button {
+    padding: 11px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(220.55deg, #FF3F3F 0%, #063CFF 100%);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    
+  }
+.h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 3rem;
+    color: white;
+    margin-top: 25vh;
+    /* color: aqua; */
+    text-align: center;
+  }
   
+.gradient-text {
+    background: linear-gradient(220.55deg, #FF3F3F 0%, #063CFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .error-popup {
+    position: fixed;
+    border-radius: 5px;
+    padding: 5vh 10vw;
+    background-color: #fff;
+    border: 1px solid black;
+    z-index: 9999;
+    text-align: center;
+  }
+  
+  .error-popup p {
+    margin: 0;
+    color: #222;
+    font-family: 'Inter', sans-serif;
+    padding-bottom: 2vh;
+    font-size: 1.5rem;
+  }
+  
+  .error-popup button {
+    padding: 11px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(220.55deg, #FF3F3F 0%, #063CFF 100%);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+  
+
+  .box:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(-45deg, #ff3d00 0%, #0400ff 100% );
+    transform: translate3d(0px, 20px, 0) scale(0.95);
+    filter: blur(20px);
+    opacity: var(0.7);
+    transition: opacity 0.3s;
+    border-radius: inherit;
+  }
+
+
+  .box::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    border-radius: inherit;
+  }
+        

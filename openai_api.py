@@ -56,7 +56,7 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
 def video_summarize(captions, video_details):
     openai.api_key = get_api_key()
 
-    prompt = f"This is the main info about a YouTube video. Title: {video_details['title']}. Category: {video_details['category']}. Main tags: {video_details['tags']}. Transcription: {captions}. I want just a json like this:  {{main_ideas: extract the main ideas in separate sentences beggining with an emoji,summary: give me a summary of the video (without writing explicitly the tags and the category that a I give you), sentiment_analysis: sentiment analysys of the video, category: recategorize if you consider necessary if not the same category}}"
+    prompt = f"This is the main info about a YouTube video. Title: {video_details['title']}. Category: {video_details['category']}. Main tags: {video_details['tags']}. Transcription: {captions}. I want just a json like this:  {{\"main_ideas\": extract the main ideas in separate sentences beggining with an emoji as strings in an array,\"summary\": give me a summary of the video (without writing explicitly the tags and the category that a I give you), \"sentiment_analysis\": sentiment analysys of the video in one sentence, \"category\": recategorize if you consider necessary if not the same category}}. All in the transcription language"
 
     # Split the prompt into chunks
     word_limit = 2000

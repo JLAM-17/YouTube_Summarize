@@ -53,7 +53,7 @@ def get_video_details(video_id):
         response = {
             "title": request["items"][0]["snippet"]["title"],
             "channel": request["items"][0]["snippet"]["channelTitle"],
-            "cover": request["items"][0]["snippet"]["thumbnails"]["high"]["url"],
+            "cover": request["items"][0]["snippet"]["thumbnails"]["maxres"]["url"],
             "tags": tags[:5],
             "category": category,
             "defaultLanguage": request["items"][0]["snippet"].get("defaultAudioLanguage", "en"),

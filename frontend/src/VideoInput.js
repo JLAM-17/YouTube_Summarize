@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import './VideoInput.css';
-
+import { useNavigate } from 'react-router';
+import { DotWave } from '@uiball/loaders'
 
 const VideoInput = () => {
   const [videoLink, setVideoLink] = useState('');
-  const [captions, setCaptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     setVideoLink(event.target.value);
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch('http://localhost:5000/api/summarize', {
         method: 'POST',
@@ -22,41 +26,44 @@ const VideoInput = () => {
       // console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        setCaptions(data.captions);
-        console.log(data.captions);
+        console.log(data.video_id)
+        const videoId = data.video_id;
+        navigate(`/video/${videoId}`);
       } else {
         const errorData = await response.json();
-        console.error(errorData.error);
+        setErrorMessage(errorData.error);
       }
     } catch (error) {
-      // Handle any errors
-      console.error(error);
-      
-    } 
+      setErrorMessage(error.message);   
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="video-input-container">
-      <input
-        type="text"
-        value={videoLink}
-        onChange={handleInputChange}
-        placeholder="Enter YouTube video link"
-        className="video-input"
-      />
-      <button onClick={handleSubmit}>Submit</button>
-
-      {captions.length > 0 && (
-        <div>
-          <h2>Captions:</h2>
-          <ul>
-            {captions.map((caption, index) => (
-              <li key={index}>{caption}</li>
-            ))}
-          </ul>
+    <div>      
+      <div className="video-input-container">
+      <h1><span className='gradient-text'>Summarize</span> YouTube videos <br></br> with <span className='gradient-text'>AI</span></h1>
+        <div className="input-group">
+          <input
+            type="text"
+            value={videoLink}
+            onChange={handleInputChange}
+            placeholder="Enter YouTube video link"
+            className="video-input"
+          />
+          <button onClick={handleSubmit} className='submit-button'>Submit</button>
         </div>
-      )}
+        {/* Loader animation*/}
+        {isLoading && <DotWave size={80} speed={1} color="#f50a41" />}
+        {/* Error message popup */}
+        {errorMessage && (
+        <div className="error-popup box">
+          <p>{errorMessage}</p>
+          <button onClick={() => setErrorMessage(null)}>Close</button>
+        </div>
+      )}        
+      </div>
     </div>
   );
 };
