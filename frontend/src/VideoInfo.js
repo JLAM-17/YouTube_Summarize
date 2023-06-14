@@ -10,7 +10,7 @@ const VideoInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/video/' + videoId, {
+        const response = await fetch('/api/video/' + videoId, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const VideoInfo = () => {
             </div>
               <div className='pure-u-1-1 main-ideas'>
                 <h2>Main Ideas</h2>
-                {videoData.main_ideas.slice(1, -1).split(', ').map((item, index) => (
+                {videoData.main_ideas.slice(1, -1).replaceAll('.,','..,').split('., ').map((item, index) => (
                   // <p key={index}>{Object.keys(item)[0] + ' ' + Object.values(item)[0]}</p>
                   <p key={index}>{item}</p>
                 ))}

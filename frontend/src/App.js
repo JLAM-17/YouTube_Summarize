@@ -6,6 +6,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 function App() {
+  useEffect(() => {
+    document.title = "YouTube Summarizer";
+  }, []);
+
   return (
     <Router>
       <div className="App">

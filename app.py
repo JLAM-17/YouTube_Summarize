@@ -5,9 +5,9 @@ from db import insert_video, get_video_by_id
 from openai_api import video_summarize
 
 
-
+# app = Flask(__name__)
 app = Flask(__name__, static_folder='frontend/build', static_url_path='/')
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+# CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
@@ -56,5 +56,5 @@ def api():
 def serve_frontend():
     return app.send_static_file('index.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
